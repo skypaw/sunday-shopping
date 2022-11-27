@@ -4,22 +4,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title>Czy dziś jest handlowa</title>
+    <title>Czy dziś jest niedziela handlowa</title>
   </head>
   <body>
     <main class="px-3">
 		<div class="container my-5 bg-light text-dark">
-		    <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
+		    <div class="row p-4 pt-lg-5 align-items-center rounded-3 border shadow-lg">
 		      <div class="p-3 p-lg-5 pt-lg-3">
 		        <h2 class="display-4 lh-1  text-center">Czy dziś jest niedziela handlowa?</h2>
 		        <h1 id="is-shopping-allowed" class="display-4 fw-bold lh-1 pt-4 text-center">Nie</h1>
 		        <div class="row pt-5">
 		        <p class="lead">Najbliższe niedziele handlowe:</p>
 			       <div class="container">
-			        <ul class="list-group">
-					  <li class="list-group-item">18.12</li>
-					  <li class="list-group-item">18.12</li>
-					  <li class="list-group-item">18.12</li>
+			        <ul id="next-sunday" class="list-group">
 					</ul>
 					</div>
 		    	</div>
@@ -32,13 +29,37 @@
 		let day = date.getDate();
 		let month = date.getMonth() + 1;
 		let year = date.getFullYear();
-		let currentDate = `${day}.${month}.${year}`;
-		const shoppingAllowed = ['27.11.2022','11.12.2022','18.12.2022','29.01.2023','2.04.2023','30.04.2023','25.06.2023','25.06.2023','27.08.2023','17.12.2023','24.12.2023','28.01.2024','24.03.2024','28.04.2024','30.06.2024','25.08.2024','15.12.2024','22.12.2024']
+		let currentDate = `${month}/${day}/${year}`;
+		const shoppingAllowed = ['12/11/2022','12/18/2022','01/29/2023','04/02/2023','04/30/2023','06/25/2023','06/25/2023','08/27/2023','12/17/2023','12/24/2023','01/28/2024','03/24/2024','04/28/2024','06/30/2024','08/25/2024','12/15/2024','12/22/2024']
 
 		if (shoppingAllowed.includes(currentDate)){
+			let isAllowed = document.getElementById('is-shopping-allowed');
+			isAllowed.innerHTML = isAllowed.innerHTML.replace("Nie", "Tak");
+		}
+
+		let counter = 0;
+		shoppingAllowed.forEach(i => {
+			let nextSundayDate = new Date(i);
+			if (date < nextSundayDate){ 
+				if (counter < 3){
+					let currentDate = convertDate(nextSundayDate);
+					let node = document.createElement("li");
+					let textnode = document.createTextNode(currentDate);
+					node.appendChild(textnode);
+					node.classList.add("list-group-item");
+					document.getElementById("next-sunday").appendChild(node);
+				}
+				counter += 1;
+			} 
+		})
+
+		function convertDate(nextSundayDate) {
+			let day = nextSundayDate.getDate();
+			let month = nextSundayDate.getMonth() + 1;
+			let year = nextSundayDate.getFullYear();
+			return `${day}.${month}.${year}`;
 		}
 	</script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   </body>
 </html>
