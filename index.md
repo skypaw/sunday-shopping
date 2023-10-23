@@ -13,7 +13,7 @@ title: Czy dziś jest niedziela handlowa
                 {% if i == 3 %}
                     {% break %}
                 {% else %}
-                    {{ sunday }}
+                    {{ sunday | date: "%d.%m.%Y"}}
                 {% endif %}
             {% endfor %}
         </ul>
