@@ -9,12 +9,12 @@ title: Czy dziś jest niedziela handlowa
     <div class="container">
         <ul id="next-sunday" class="list-group">
             {% assign i = 0 %}
-            {% for sunday in site.data.niedziele-handlowe.dates %}
+            {% for sunday in site.data.niedziele-handlowe %}
                 {% if i == 3 %}
                     {% break %}
                 {% else %}
                     {% i | plus: 1 %}
-                    {{ sunday | date: "%d.%m.%Y"}}
+                    {{ sunday.date | date: "%d.%m.%Y"}}
                 {% endif %}
             {% endfor %}
         </ul>
