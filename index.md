@@ -55,5 +55,4 @@ title: Czy dziś jest niedziela handlowa
         let year = nextSundayDate.getFullYear();
         return `${day}.${month}.${year}`;
     }
-
 </script>
