@@ -2,6 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://czyjesthandlowa.pl/</loc>
-    <lastmod>2022-11-27</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://czyjesthandlowa.pl/najblizsza-niedziela-handlowa.htm</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://czyjesthandlowa.pl/czy-najblizsza-niedziela-jest-handlowa.htm</loc>
+    <changefreq>weekly</changefreq>
   </url>
 </urlset>
