@@ -8,6 +8,14 @@ title: Czy dziś jest niedziela handlowa
     <p class="lead">Najbliższe niedziele handlowe:</p>
     <div class="container">
         <ul id="next-sunday" class="list-group">
+            {% for sunday in site.data.niedziele-handlowe %}
+                {% increment i %}
+                {% if i == 3 %}
+                    {% break %}
+                {% else %}
+                    {{ sunday }}
+                {% endif %}
+            {% endfor %}
         </ul>
     </div>
 </div>
@@ -47,4 +55,5 @@ title: Czy dziś jest niedziela handlowa
         let year = nextSundayDate.getFullYear();
         return `${day}.${month}.${year}`;
     }
+
 </script>
