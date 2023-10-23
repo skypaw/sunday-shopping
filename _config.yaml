@@ -1,6 +1,3 @@
-collections:
-  authors:
-
-domain: czyjesthandlwoa.pl       # if you want to force HTTPS, specify the domain without the http at the start, e.g. example.com
-url: https://czyjesthandlwoa.pl  # the base hostname and protocol for your site, e.g. http://example.com
+domain: czyjesthandlowa.pl       # if you want to force HTTPS, specify the domain without the http at the start, e.g. example.com
+url: https://czyjesthandlowa.pl  # the base hostname and protocol for your site, e.g. http://example.com
 baseurl: /REPOSITORY-NAME/article/      # place folder name if the site is served in a subfolder
