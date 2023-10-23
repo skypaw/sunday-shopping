@@ -48,5 +48,3 @@ title: Czy dziś jest niedziela handlowa
         return `${day}.${month}.${year}`;
     }
 </script>
-
-
