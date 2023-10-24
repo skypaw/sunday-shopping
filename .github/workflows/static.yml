@@ -29,6 +29,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Testconsole
+        run: cat filter_data.py
+        shell: bash
       - name: Filter dates
         run: python 'filter_data.py'
         shell: bash
