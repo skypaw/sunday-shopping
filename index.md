@@ -8,14 +8,8 @@ title: Czy dziś jest niedziela handlowa
     <p class="lead">Najbliższe niedziele handlowe:</p>
     <div class="container">
         <ul id="next-sunday" class="list-group">
-            {% assign var = 0 %}
-            {% for sunday in site.data.niedziele-handlowe %}
-                {% if var == 3 %}
-                    {% break %}
-                {% else %}
-                    {% var | plus: 1 %}
-                    {{ sunday.date | date: "%d.%m.%Y"}}
-                {% endif %}
+            {% for sunday in site.data.shopping-sundays limit:3 %}
+                {{ sunday.date | date: "%d.%m.%Y"}}
             {% endfor %}
         </ul>
     </div>
@@ -56,4 +50,5 @@ title: Czy dziś jest niedziela handlowa
         let year = nextSundayDate.getFullYear();
         return `${day}.${month}.${year}`;
     }
+
 </script>
