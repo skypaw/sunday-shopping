@@ -24,4 +24,3 @@ with open('jekyll/_data/shopping-sundays.csv', 'r') as file:
 
 with open('jekyll/_data/filtered-shopping-sundays.csv', 'w') as file:
     filtered_dates = filter(not_none, mapped_dates)
-    csv.writer(file).writerow(filtered_dates)
