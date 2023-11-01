@@ -6,9 +6,7 @@ title: Najbliższa niedziela handlowa
     <p class="lead">Najbliższa niedziela handlowa przypada w dniu:</p>
     <div class="container">
         <ul>
-            {% for sunday in site.data.filtered-shopping-sundays.dates limit:1 %}
-                <li class="list-group-item">{{ sunday | date: "%d.%m.%Y"}}</li>
-            {% endfor %}
+            <li class="list-group-item">{{ site.data.filtered-shopping-sundays.dates[0] | date: "%d.%m.%Y"}}</li>
         </ul>
     </div>
 </div>
