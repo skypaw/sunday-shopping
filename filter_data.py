@@ -6,7 +6,7 @@ def remove_past_sundays(date):
     sunday = datetime.fromisoformat(date)
     now = datetime.now()
     if sunday > now:
-        return str(sunday)
+        return str(sunday.strftime('%B %d, %Y'))
 
 
 def not_none(element):
