@@ -7,7 +7,7 @@ def remove_past(date):
     sunday = datetime.fromisoformat(date)
     now = datetime.now()
     if sunday > now:
-        return str(sunday.strftime('%B %d, %Y'))
+        return str(sunday)
 
 
 def not_none(element):
@@ -25,4 +25,5 @@ with open('jekyll/_data/shopping-sundays.csv', 'r') as file:
 with open('jekyll/_data/filtered-shopping-sundays.json', 'w', newline='') as file:
     filtered_dates = filter(not_none, list(mapped_dates))
     file.writelines(json.dumps({'dates': list(filtered_dates)}))
+
 
