@@ -7,3 +7,7 @@ defaults:
       path: ""
     values:
       layout: "default"
+
+csv_reader:
+  converters:
+    - datetime
