@@ -8,7 +8,7 @@ title: Czy dziś jest niedziela handlowa
     <p class="lead">Najbliższe niedziele handlowe:</p>
     <div class="container">
         <ul id="next-sunday" class="list-group">
-            {% for sunday in site.data.filtered-shopping-sundays limit:3 %}
+            {% for sunday in site.data.filtered-shopping-sundays.dates limit:3 %}
                 <li class="list-group-item">{{ sunday | date: "%d.%m.%Y"}}</li>
             {% endfor %}
         </ul>
