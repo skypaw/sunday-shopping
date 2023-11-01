@@ -1,8 +1,9 @@
 from datetime import datetime
 import csv
+import json
 
 
-def remove_past_sundays(date):
+def remove_past(date):
     sunday = datetime.fromisoformat(date)
     now = datetime.now()
     if sunday > now:
@@ -19,11 +20,10 @@ def not_none(element):
 mapped_dates = []
 with open('jekyll/_data/shopping-sundays.csv', 'r') as file:
     for dates in csv.reader(file):
-        mapped_dates = map(remove_past_sundays, dates)
+        mapped_dates = map(remove_past, dates)
 
-with open('jekyll/_data/filtered-shopping-sundays.csv', 'w', newline='') as file:
+with open('jekyll/_data/filtered-shopping-sundays.json', 'w', newline='') as file:
     filtered_dates = filter(not_none, list(mapped_dates))
-    writer = csv.DictWriter(file, dialect='excel', fieldnames=['dates'])
+    file.writelines(json.dumps({'dates': list(filtered_dates)}))
 
-    writer.writeheader()
-    writer.writerows([{'dates': date} for date in filtered_dates])
+
