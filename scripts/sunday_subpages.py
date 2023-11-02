@@ -30,5 +30,5 @@ delta_days = datetime.timedelta(seconds=last_confing_sunday_timestamp - TODAY_TI
 date_list = [calculate_day(i) for i in range(delta_days) if calculate_day(i).weekday() == 6]
 
 for date in date_list:
-    with open(f'jekyll/czy-{date.strftime("%d-%m-%Y")}-jest-niedziela-handlowa.md', 'w', encoding='utf-16') as file:
+    with open(f'jekyll/czy-{date.strftime("%d-%m-%Y")}-jest-niedziela-handlowa.md', 'w', encoding='utf-8') as file:
         file.writelines(generate_md(date))
