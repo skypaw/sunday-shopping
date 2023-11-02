@@ -20,7 +20,7 @@ title: Czy {format_date} jest handlowa?
 '''
 
 
-with open('../shopping-sundays.csv') as file:
+with open('shopping-sundays.csv') as file:
     config_string = file.readline()
     last_confing_sunday = config_string[config_string.rfind(',') + 1:]
 
@@ -30,5 +30,5 @@ delta_days = datetime.timedelta(seconds=last_confing_sunday_timestamp - TODAY_TI
 date_list = [calculate_day(i) for i in range(delta_days) if calculate_day(i).weekday() == 6]
 
 for date in date_list:
-    with open(f'../jekyll/czy-{date.strftime("%d-%m-%Y")}-jest-niedziela-handlowa.md', 'w', encoding='utf-16') as file:
+    with open(f'jekyll/czy-{date.strftime("%d-%m-%Y")}-jest-niedziela-handlowa.md', 'w', encoding='utf-16') as file:
         file.writelines(generate_md(date))
