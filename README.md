@@ -2,7 +2,7 @@
 
 #### Background:
 
-Couple years ago there was change in Polish law, and you can no longer go shopping in every sunday.
+Couple years ago there was a change in the Polish law, and you can no longer do your groceries every sunday.
 
 #### Idea:
 
