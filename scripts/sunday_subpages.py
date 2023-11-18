@@ -39,6 +39,7 @@ with open('jekyll/sitemap.xml') as sitemap:
     for date in date_list:
         with open(f'jekyll/{sunday_url(date)}.md', 'w', encoding='utf-8') as file:
             file.writelines(generate_md(date))
+
         default_sitemap['urlset']['url'].append({'loc': f'https://czyjesthandlowa.pl/{sunday_url(date)}',
                                                  'changefreq': 'monthly'})
     xmltodict.unparse(default_sitemap, sitemap)
