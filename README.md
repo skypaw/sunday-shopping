@@ -1,3 +1,4 @@
+![deploy-static-site](https://github.com/skypaw/sunday-shopping/actions/workflows/static.yml/badge.svg)
 ## sunday-shopping 📅
 
 #### Background:
