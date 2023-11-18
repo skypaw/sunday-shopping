@@ -34,11 +34,13 @@ delta_days = datetime.timedelta(seconds=last_confing_sunday_timestamp - TODAY_TI
 
 date_list = [calculate_day(i) for i in range(delta_days) if calculate_day(i).weekday() == 6]
 
-with open('jekyll/sitemap.xml') as sitemap:
-    default_sitemap = xmltodict.parse(sitemap.read())
+with open('jekyll/sitemap.xml', 'r') as sitemap_read:
+    default_sitemap = xmltodict.parse(sitemap_read.read())
     for date in date_list:
         with open(f'jekyll/{sunday_url(date)}.md', 'w', encoding='utf-8') as file:
             file.writelines(generate_md(date))
-        default_sitemap['urlset']['url'].append({'loc': f'https://czyjesthandlowa.pl/{sunday_url(date)}',
+        default_sitemap['urlset']['url'].append({'loc': f'https://czyjesthandlowa.pl/{sunday_url(date)}/',
                                                  'changefreq': 'monthly'})
-    xmltodict.unparse(default_sitemap, sitemap)
+
+with open('jekyll/sitemap.xml', 'w') as sitemap_write:
+    xmltodict.unparse(default_sitemap, sitemap_write)
