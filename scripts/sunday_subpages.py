@@ -1,5 +1,6 @@
 import datetime
 import xmltodict
+import json
 
 TODAY_TIMESTAMP = datetime.datetime.now().timestamp()
 
@@ -12,8 +13,8 @@ def sunday_url(date: datetime.datetime) -> str:
     return f'czy-{date.strftime("%d-%m-%Y")}-jest-niedziela-handlowa'
 
 
-def check_if_shopping_allowed(list_index: int) -> None:
-    if date_list[list_index] <= datetime.datetime.today() + datetime.timedelta(7):
+def check_if_shopping_allowed(list_index: int, list_of_sundays: list) -> None:
+    if list_of_sundays[list_index] <= datetime.datetime.today() + datetime.timedelta(7):
         closest_sunday(date_list[list_index], is_shopping_allowed=True)
     else:
         closest_sunday(date_list[list_index])
@@ -58,10 +59,13 @@ date_list = [calculate_day(i) for i in range(delta_days) if calculate_day(i).wee
 
 # create closest sunday subpage
 
-if date_list[0].date() == datetime.datetime.today().date():
-    check_if_shopping_allowed(1)
+with open('jekyll/_data/filtered-shopping-sundays.json') as file:
+    shopping_sundays = json.load(file)['dates']
+
+if shopping_sundays[0].date() == datetime.datetime.today().date():
+    check_if_shopping_allowed(1, shopping_sundays)
 else:
-    check_if_shopping_allowed(0)
+    check_if_shopping_allowed(0, shopping_sundays)
 
 # create sitemap and subpages
 
