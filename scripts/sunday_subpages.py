@@ -4,7 +4,7 @@ import xmltodict
 TODAY_TIMESTAMP = datetime.datetime.now().timestamp()
 
 
-def closest_sunday(date, is_shopping_allowed: False):
+def closest_sunday(date, is_shopping_allowed=False):
     format_date = date.strftime("%d.%m.%Y")
     with open(f'jekyll/czy-najblizsza-niedziela-jest-handlowa.md', 'w', encoding='utf-8') as file:
         closest = f'''---
@@ -49,10 +49,10 @@ delta_days = datetime.timedelta(seconds=last_confing_sunday_timestamp - TODAY_TI
 
 date_list = [calculate_day(i) for i in range(delta_days) if calculate_day(i).weekday() == 6]
 
-if date_list[0] <= datetime.date.today() + datetime.timedelta(7):
+if date_list[0] <= datetime.datetime.today() + datetime.timedelta(7):
     closest_sunday(date_list[0], is_shopping_allowed=True)
 else:
-    closest_sunday(date_list[0], is_shopping_allowed=True)
+    closest_sunday(date_list[0])
 
 with open('jekyll/sitemap.xml', 'r') as sitemap_read:
     default_sitemap = xmltodict.parse(sitemap_read.read())
