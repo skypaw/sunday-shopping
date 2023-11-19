@@ -14,7 +14,8 @@ def sunday_url(date: datetime.datetime) -> str:
 
 
 def check_if_shopping_allowed(list_index: int, list_of_sundays: list) -> None:
-    if list_of_sundays[list_index] <= datetime.datetime.today() + datetime.timedelta(7):
+    if datetime.datetime.fromisoformat(
+            list_of_sundays[list_index]).date() <= datetime.datetime.today() + datetime.timedelta(7):
         closest_sunday(date_list[list_index], is_shopping_allowed=True)
     else:
         closest_sunday(date_list[list_index])
