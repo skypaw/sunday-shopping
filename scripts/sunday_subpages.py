@@ -62,7 +62,7 @@ date_list = [calculate_day(i) for i in range(delta_days) if calculate_day(i).wee
 with open('jekyll/_data/filtered-shopping-sundays.json') as file:
     shopping_sundays = json.load(file)['dates']
 
-if shopping_sundays[0].date() == datetime.datetime.today().date():
+if datetime.datetime.fromisoformat(shopping_sundays[0]).date() == datetime.datetime.today().date():
     check_if_shopping_allowed(1, shopping_sundays)
 else:
     check_if_shopping_allowed(0, shopping_sundays)
