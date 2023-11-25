@@ -1,5 +1,6 @@
 ---
 title: Czy dzisiaj jest niedziela handlowa
+layout: default
 ---
 
 <h1 class="display-4 lh-1  text-center">Czy dzisiaj jest niedziela handlowa?</h1>
