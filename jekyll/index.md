@@ -8,7 +8,7 @@ layout: default
 {% if  site.data.filtered-shopping-sundays.dates[0] == "now" %}
     Tak! 😄
 {% else %}
-    Tak! 😄
+    Nie 😔
 {% endif %}
 
 </p>
