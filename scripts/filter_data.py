@@ -3,25 +3,46 @@ import csv
 import json
 
 
-def remove_past(date):
-    sunday = datetime.fromisoformat(date)
-    now = datetime.now()
-    if sunday > now:
-        return str(sunday)
+class FilterDates:
+    def __init__(self, dates):
+        self.dates = dates
+        self.future_sundays = self.remove_past_sundays()
+
+    def remove_past_sundays(self):
+        return map(self.remove_past, self.dates)
+
+    def filter_dates(self):
+        return filter(self.not_none, list(self.future_sundays))
+
+    @staticmethod
+    def remove_past(date):
+        sunday = datetime.fromisoformat(date)
+        now = datetime.now()
+        if sunday.date() >= now.date():
+            return str(sunday)
+
+    @staticmethod
+    def not_none(date):
+        if not date:
+            return False
+        else:
+            return True
+
+    @staticmethod
+    def load_dates():
+        dates = []
+        with open('shopping-sundays.csv', 'r') as file:
+            for row in csv.reader(file):
+                dates.append(row)
+        return dates
+
+    @staticmethod
+    def save_dates(filtered_dates):
+        with open('jekyll/_data/filtered-shopping-sundays.json', 'w', newline='') as file:
+            file.writelines(json.dumps({'dates': list(filtered_dates)}))
 
 
-def not_none(element):
-    if not element:
-        return False
-    else:
-        return True
-
-
-mapped_dates = []
-with open('shopping-sundays.csv', 'r') as file:
-    for dates in csv.reader(file):
-        mapped_dates = map(remove_past, dates)
-
-with open('jekyll/_data/filtered-shopping-sundays.json', 'w', newline='') as file:
-    filtered_dates = filter(not_none, list(mapped_dates))
-    file.writelines(json.dumps({'dates': list(filtered_dates)}))
+if __name__ == '__main__':
+    raw_dates = FilterDates.load_dates()
+    filter_data = FilterDates(raw_dates)
+    filter_data.save_dates(filter_data.filter_dates())
