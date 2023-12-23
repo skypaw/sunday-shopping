@@ -31,18 +31,20 @@ class FilterDates:
     @staticmethod
     def load_dates():
         dates = []
-        with open('shopping-sundays.csv', 'r') as file:
+        with open("shopping-sundays.csv", "r") as file:
             for row in csv.reader(file):
-                dates.append(row)
+                dates = row
         return dates
 
     @staticmethod
     def save_dates(filtered_dates):
-        with open('jekyll/_data/filtered-shopping-sundays.json', 'w', newline='') as file:
-            file.writelines(json.dumps({'dates': list(filtered_dates)}))
+        with open(
+            "jekyll/_data/filtered-shopping-sundays.json", "w", newline=""
+        ) as file:
+            file.writelines(json.dumps({"dates": list(filtered_dates)}))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     raw_dates = FilterDates.load_dates()
     filter_data = FilterDates(raw_dates)
     filter_data.save_dates(filter_data.filter_dates())
