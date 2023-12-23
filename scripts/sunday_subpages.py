@@ -1,6 +1,21 @@
 import datetime
 import xmltodict
 import json
+from templates import any_sunday, closest_sunday
+import abc
+
+
+class Subpage(abc.ABC):
+    pass
+
+
+class AnySunday(Subpage):
+    pass
+
+
+class ClosestSunday(Subpage):
+    pass
+
 
 TODAY_TIMESTAMP = datetime.datetime.now().timestamp()
 
@@ -16,37 +31,21 @@ def sunday_url(date: datetime.datetime) -> str:
 def check_if_shopping_allowed(list_index: int, list_of_sundays: list) -> None:
     if datetime.datetime.fromisoformat(list_of_sundays[list_index]).date() <= (
             datetime.datetime.today() + datetime.timedelta(7)).date():
-        closest_sunday(date_list[list_index], is_shopping_allowed=True)
+        closest_sunday_A(date_list[list_index], is_shopping_allowed=True)
     else:
-        closest_sunday(date_list[list_index])
+        closest_sunday_A(date_list[list_index])
 
 
-def closest_sunday(date, is_shopping_allowed=False) -> None:
+def closest_sunday_A(date, is_shopping_allowed=False) -> None:
     format_date = date.strftime("%d.%m.%Y")
     with open(f'jekyll/czy-najblizsza-niedziela-jest-handlowa.md', 'w', encoding='utf-8') as file:
-        closest = f'''---
-title: Czy najbliższa niedziela ({format_date}) jest handlowa?
----
-
-<div class="row pt-5 pb-5 text-center">
-    <h1 class="pb-3">Czy najbliższa niedziela ({format_date}) jest handlowa?</h1>
-    <p class="lead">{"Tak! 🥳" if is_shopping_allowed else "Nie 😔"}</p>
-</div>
-'''
+        closest = closest_sunday(format_date, is_shopping_allowed)
         file.writelines(closest)
 
 
 def generate_md(date) -> str:
     format_date = date.strftime("%d.%m.%Y")
-    return f'''---
-title: Czy {format_date} jest handlowa?
----
-
-<div class="row pt-5 pb-5 text-center">
-    <h1 class="pb-3">Czy {format_date} jest niedziela handlowa?</h1>
-    <p class="lead">{"Tak! 🥳" if date.strftime("%Y-%m-%d") in config_string else "Nie 😔"}</p>
-</div>
-'''
+    return any_sunday(date, format_date, config_string)
 
 
 with open('shopping-sundays.csv') as file:
