@@ -1,4 +1,4 @@
-def any_sunday(date, format_date, config_string):
+def any_sunday_template(date, format_date, config_string):
     return f"""---
 title: Czy {format_date} jest handlowa?
 ---
@@ -10,7 +10,7 @@ title: Czy {format_date} jest handlowa?
 """
 
 
-def closest_sunday(format_date, is_shopping_allowed):
+def closest_sunday_template(format_date, is_shopping_allowed):
     return f"""---
 title: Czy najbliższa niedziela ({format_date}) jest handlowa?
 ---
