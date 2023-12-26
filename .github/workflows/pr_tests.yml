@@ -20,6 +20,7 @@ jobs:
       - name: Export coverage
         run: coverage
   sonarcloud:
+    needs: unit_test
     name: SonarCloud
     runs-on: ubuntu-latest
     steps:
