@@ -1,10 +1,9 @@
 import json
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
-import aiofiles
 import xmltodict
 
-from scripts.templates import any_sunday_template, closest_sunday_template
+from templates import any_sunday_template, closest_sunday_template
 
 
 class AnySunday:
@@ -24,15 +23,15 @@ class AnySunday:
     def template(self, shops_open) -> str:
         return any_sunday_template(self.jekyll_date, shops_open)
 
-    async def generate(self, shops_open):
-        async with aiofiles.open(f"{self.sunday_url()}.md", mode="w") as md:
-            await md.writelines(self.template(shops_open))
-        await self.build_sitemap()
+    def generate(self, shops_open):
+        with open(f"{self.sunday_url()}.md", mode="w", encoding="utf-8") as md:
+            md.writelines(self.template(shops_open))
+        self.build_sitemap()
 
-    async def build_sitemap(self):
-        async with aiofiles.open("jekyll/sitemap.xml", "r") as sitemap:
-            parsed_sitemap = xmltodict.parse(await sitemap.read())
-        with aiofiles.open("jekyll/sitemap.xml", "w") as sitemap:
+    def build_sitemap(self):
+        with open("jekyll/sitemap.xml", "r") as sitemap:
+            parsed_sitemap = xmltodict.parse(sitemap.read())
+        with open("jekyll/sitemap.xml", "w") as sitemap:
             parsed_sitemap["urlset"]["url"].append(self.sitemap())
             xmltodict.unparse(parsed_sitemap, sitemap)
 
@@ -50,17 +49,17 @@ class Config:
         self.config = []
 
     def dates(self):
-        today = datetime.now().timestamp()
-        calendar = timedelta(seconds=self.last_sunday.timestamp() - today).days + 1
+        today = date.today()
+        calendar = (self.last_sunday - today).days + 7  # days
         return [self.days(i) for i in range(calendar) if self.days(i).weekday() == 6]
 
     def shops_open(self, sunday):
-        return True if datetime.strftime(sunday, "%B %d, %Y") in self.config else False
+        return True if sunday in self.config else False
 
     def load_config(self):
         with open("jekyll/_data/filtered-shopping-sundays.json") as json_config:
             jekyll_format = json.load(json_config)["dates"]
-            self.config = [datetime.strptime(i, "%B %d, %Y") for i in jekyll_format]
+            self.config = [datetime.strptime(i, "%B %d, %Y").date() for i in jekyll_format]
 
     @property
     def first_sunday(self):
@@ -72,7 +71,7 @@ class Config:
 
     @staticmethod
     def days(i):
-        return datetime.today() + timedelta(i)
+        return date.today() + timedelta(i)
 
 
 if __name__ == "__main__":
@@ -80,8 +79,8 @@ if __name__ == "__main__":
     config.load_config()
 
     for date in config.dates():
-        if date == config.first_sunday:
-            closest_sunday = ClosestSunday(config.first_sunday)
-            closest_sunday.generate(config.shops_open(config.first_sunday))
         any_sunday = AnySunday(date)
         any_sunday.generate(config.shops_open(date))
+
+    closest_sunday = ClosestSunday(config.first_sunday)
+    closest_sunday.generate(config.shops_open(config.first_sunday))
