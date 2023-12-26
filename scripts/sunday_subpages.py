@@ -47,16 +47,21 @@ class Config:
     def __init__(self):
         self.config = self.load_config()
 
-    def last_sunday(self):
-        return self.config[-1]
-
     def dates(self):
         today = datetime.now().timestamp()
-        calendar = timedelta(seconds=self.last_sunday() - today).days
+        calendar = timedelta(seconds=self.last_sunday - today).days
         return [self.days(i) for i in range(calendar) if self.days(i).weekday() == 6]
 
     def shops_open(self, sunday):
         return True if sunday in self.config else False
+
+    @property
+    def first_sunday(self):
+        return self.config[1]
+
+    @property
+    def last_sunday(self):
+        return self.config[-1]
 
     @staticmethod
     def days(i):
@@ -70,9 +75,10 @@ class Config:
 
 if __name__ == '__main__':
     config = Config()
+
     for date in config.dates():
+        if date == config.first_sunday:
+            closest_sunday = ClosestSunday(config.first_sunday)
+            closest_sunday.generate(config.shops_open(config.first_sunday))
         any_sunday = AnySunday(date)
         any_sunday.generate(config.shops_open(date))
-
-    closest_sunday = ClosestSunday(config.dates()[0])
-    closest_sunday.generate(config.shops_open(config.dates()[0]))
