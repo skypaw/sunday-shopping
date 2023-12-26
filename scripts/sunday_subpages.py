@@ -13,7 +13,7 @@ class AnySunday:
         self.jekyll_date = self.date.strftime("%d.%m.%Y")
 
     def sunday_url(self) -> str:
-        return f'czy-{self.date.strftime("%d-%m-%Y")}-jest-niedziela-handlowa.md'
+        return f"czy-{self.jekyll_date}-jest-niedziela-handlowa"
 
     def sitemap(self):
         return {
@@ -25,7 +25,7 @@ class AnySunday:
         return any_sunday_template(self.jekyll_date, shops_open)
 
     async def generate(self, shops_open):
-        async with aiofiles.open(self.sunday_url(), mode="w") as md:
+        async with aiofiles.open(f"{self.sunday_url()}.md", mode="w") as md:
             await md.writelines(self.template(shops_open))
         await self.build_sitemap()
 
@@ -39,7 +39,7 @@ class AnySunday:
 
 class ClosestSunday(AnySunday):
     def sunday_url(self) -> str:
-        return "czy-najblizsza-niedziela-jest-handlowa.md"
+        return "czy-najblizsza-niedziela-jest-handlowa"
 
     def template(self, shops_open) -> str:
         return closest_sunday_template(self.date, self.jekyll_date)
@@ -47,19 +47,24 @@ class ClosestSunday(AnySunday):
 
 class Config:
     def __init__(self):
-        self.config = self.load_config()
+        self.config = []
 
     def dates(self):
         today = datetime.now().timestamp()
-        calendar = timedelta(seconds=self.last_sunday - today).days
+        calendar = timedelta(seconds=self.last_sunday.timestamp() - today).days + 1
         return [self.days(i) for i in range(calendar) if self.days(i).weekday() == 6]
 
     def shops_open(self, sunday):
-        return True if sunday in self.config else False
+        return True if datetime.strftime(sunday, "%B %d, %Y") in self.config else False
+
+    def load_config(self):
+        with open("jekyll/_data/filtered-shopping-sundays.json") as json_config:
+            jekyll_format = json.load(json_config)["dates"]
+            self.config = [datetime.strptime(i, "%B %d, %Y") for i in jekyll_format]
 
     @property
     def first_sunday(self):
-        return self.config[1]
+        return self.config[0]
 
     @property
     def last_sunday(self):
@@ -69,14 +74,10 @@ class Config:
     def days(i):
         return datetime.today() + timedelta(i)
 
-    @staticmethod
-    def load_config():
-        with open("jekyll/_data/filtered-shopping-sundays.json") as json_config:
-            return json.load(json_config)["dates"]
-
 
 if __name__ == "__main__":
     config = Config()
+    config.load_config()
 
     for date in config.dates():
         if date == config.first_sunday:
