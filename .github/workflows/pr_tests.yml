@@ -16,7 +16,7 @@ jobs:
         run: pip3 install -r requirements.txt
         shell: bash
       - name: Run tests
-        run: coverage -m pytest
+        run: coverage run -m pytest
       - name: Export coverage
         run: coverage
   sonarcloud:
