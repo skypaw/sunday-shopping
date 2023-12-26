@@ -1,8 +1,11 @@
-name: Run unit tests
+name: Run unit tests and coverage
 
 on:
-  # Runs on pushes targeting the default branch
-  push
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
 jobs:
   unit_test:
     runs-on: ubuntu-latest
@@ -13,4 +16,18 @@ jobs:
         run: pip3 install -r requirements.txt
         shell: bash
       - name: Run tests
-        run: python -m pytest
+        run: coverage run -m pytest
+      - name: Export coverage
+        run: coverage
+  sonarcloud:
+    needs: unit_test
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

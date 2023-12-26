@@ -24,11 +24,11 @@ class TestFilterData:
 
     @patch('scripts.filter_data.datetime', patch_now(SATURDAY_DATE))
     def test_remove_past_saturday(self):
-        assert FilterDates.remove_past(SUNDAY_DATE) == '2023-12-24 01:00:00'
+        assert FilterDates.remove_past(SUNDAY_DATE) == datetime.fromisoformat('2023-12-24 01:00:00')
 
     @patch('scripts.filter_data.datetime', patch_now(SUNDAY_DATE))
     def test_remove_past_sunday(self):
-        assert FilterDates.remove_past(SUNDAY_DATE) == '2023-12-24 01:00:00'
+        assert FilterDates.remove_past(SUNDAY_DATE) == datetime.fromisoformat('2023-12-24 01:00:00')
 
     @patch('scripts.filter_data.datetime', patch_now(MONDAY_DATE))
     def test_remove_past_monday(self):

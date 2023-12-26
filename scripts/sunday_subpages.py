@@ -1,82 +1,86 @@
-import datetime
-import xmltodict
 import json
+from datetime import datetime, timedelta, date
 
-TODAY_TIMESTAMP = datetime.datetime.now().timestamp()
+import xmltodict
 
-
-def calculate_day(x: int) -> datetime.datetime:
-    return datetime.datetime.fromtimestamp(TODAY_TIMESTAMP) + datetime.timedelta(days=x)
-
-
-def sunday_url(date: datetime.datetime) -> str:
-    return f'czy-{date.strftime("%d-%m-%Y")}-jest-niedziela-handlowa'
+from templates import any_sunday_template, closest_sunday_template
 
 
-def check_if_shopping_allowed(list_index: int, list_of_sundays: list) -> None:
-    if datetime.datetime.fromisoformat(list_of_sundays[list_index]).date() <= (
-            datetime.datetime.today() + datetime.timedelta(7)).date():
-        closest_sunday(date_list[list_index], is_shopping_allowed=True)
-    else:
-        closest_sunday(date_list[list_index])
+class AnySunday:
+    def __init__(self, sunday):
+        self.date = sunday
+        self.jekyll_date = self.date.strftime("%d.%m.%Y")
+
+    def sunday_url(self) -> str:
+        return f"czy-{self.jekyll_date}-jest-niedziela-handlowa"
+
+    def sitemap(self):
+        return {
+            "loc": f"https://czyjesthandlowa.pl/{self.sunday_url()}/",
+            "changefreq": "monthly",
+        }
+
+    def template(self, shops_open) -> str:
+        return any_sunday_template(self.jekyll_date, shops_open)
+
+    def generate(self, shops_open):
+        with open(f"{self.sunday_url()}.md", mode="w", encoding="utf-8") as md:
+            md.writelines(self.template(shops_open))
+        self.build_sitemap()
+
+    def build_sitemap(self):
+        with open("jekyll/sitemap.xml", "r") as sitemap:
+            parsed_sitemap = xmltodict.parse(sitemap.read())
+        with open("jekyll/sitemap.xml", "w") as sitemap:
+            parsed_sitemap["urlset"]["url"].append(self.sitemap())
+            xmltodict.unparse(parsed_sitemap, sitemap)
 
 
-def closest_sunday(date, is_shopping_allowed=False) -> None:
-    format_date = date.strftime("%d.%m.%Y")
-    with open(f'jekyll/czy-najblizsza-niedziela-jest-handlowa.md', 'w', encoding='utf-8') as file:
-        closest = f'''---
-title: Czy najbliższa niedziela ({format_date}) jest handlowa?
----
+class ClosestSunday(AnySunday):
+    def sunday_url(self) -> str:
+        return "czy-najblizsza-niedziela-jest-handlowa"
 
-<div class="row pt-5 pb-5 text-center">
-    <h1 class="pb-3">Czy najbliższa niedziela ({format_date}) jest handlowa?</h1>
-    <p class="lead">{"Tak! 🥳" if is_shopping_allowed else "Nie 😔"}</p>
-</div>
-'''
-        file.writelines(closest)
+    def template(self, shops_open) -> str:
+        return closest_sunday_template(self.date, self.jekyll_date)
 
 
-def generate_md(date) -> str:
-    format_date = date.strftime("%d.%m.%Y")
-    return f'''---
-title: Czy {format_date} jest handlowa?
----
+class Config:
+    def __init__(self):
+        self.config = []
 
-<div class="row pt-5 pb-5 text-center">
-    <h1 class="pb-3">Czy {format_date} jest niedziela handlowa?</h1>
-    <p class="lead">{"Tak! 🥳" if date.strftime("%Y-%m-%d") in config_string else "Nie 😔"}</p>
-</div>
-'''
+    def dates(self):
+        today = date.today()
+        calendar = (self.last_sunday - today).days + 7  # days
+        return [self.days(i) for i in range(calendar) if self.days(i).weekday() == 6]
+
+    def shops_open(self, sunday):
+        return True if sunday in self.config else False
+
+    def load_config(self):
+        with open("jekyll/_data/filtered-shopping-sundays.json") as json_config:
+            jekyll_format = json.load(json_config)["dates"]
+            self.config = [datetime.strptime(i, "%B %d, %Y").date() for i in jekyll_format]
+
+    @property
+    def first_sunday(self):
+        return self.config[0]
+
+    @property
+    def last_sunday(self):
+        return self.config[-1]
+
+    @staticmethod
+    def days(i):
+        return date.today() + timedelta(i)
 
 
-with open('shopping-sundays.csv') as file:
-    config_string = file.readline()
-    last_confing_sunday = config_string[config_string.rfind(',') + 1:]
+if __name__ == "__main__":
+    config = Config()
+    config.load_config()
 
-last_confing_sunday_timestamp = datetime.datetime.fromisoformat(last_confing_sunday).timestamp()
-delta_days = datetime.timedelta(seconds=last_confing_sunday_timestamp - TODAY_TIMESTAMP).days
+    for date in config.dates():
+        any_sunday = AnySunday(date)
+        any_sunday.generate(config.shops_open(date))
 
-date_list = [calculate_day(i) for i in range(delta_days) if calculate_day(i).weekday() == 6]
-
-# create closest sunday subpage
-
-with open('jekyll/_data/filtered-shopping-sundays.json') as file:
-    shopping_sundays = json.load(file)['dates']
-
-if datetime.datetime.fromisoformat(shopping_sundays[0]).date() == datetime.datetime.today().date():
-    check_if_shopping_allowed(1, shopping_sundays)
-else:
-    check_if_shopping_allowed(0, shopping_sundays)
-
-# create sitemap and subpages
-
-with open('jekyll/sitemap.xml', 'r') as sitemap_read:
-    default_sitemap = xmltodict.parse(sitemap_read.read())
-    for date in date_list:
-        with open(f'jekyll/{sunday_url(date)}.md', 'w', encoding='utf-8') as file:
-            file.writelines(generate_md(date))
-        default_sitemap['urlset']['url'].append({'loc': f'https://czyjesthandlowa.pl/{sunday_url(date)}/',
-                                                 'changefreq': 'monthly'})
-
-with open('jekyll/sitemap.xml', 'w') as sitemap_write:
-    xmltodict.unparse(default_sitemap, sitemap_write)
+    closest_sunday = ClosestSunday(config.first_sunday)
+    closest_sunday.generate(config.shops_open(config.first_sunday))

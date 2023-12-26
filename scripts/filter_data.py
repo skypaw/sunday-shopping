@@ -19,7 +19,7 @@ class FilterDates:
         sunday = datetime.fromisoformat(date)
         now = datetime.now()
         if sunday.date() >= now.date():
-            return str(sunday)
+            return sunday
 
     @staticmethod
     def not_none(date):
@@ -41,7 +41,7 @@ class FilterDates:
         with open(
             "jekyll/_data/filtered-shopping-sundays.json", "w", newline=""
         ) as file:
-            file.writelines(json.dumps({"dates": list(filtered_dates)}))
+            file.writelines(json.dumps({"dates": [datetime.strftime(i, "%B %d, %Y") for i in filtered_dates]}))
 
 
 if __name__ == "__main__":
