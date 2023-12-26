@@ -24,7 +24,7 @@ class AnySunday:
         return any_sunday_template(self.jekyll_date, shops_open)
 
     def generate(self, shops_open):
-        with open(f"{self.sunday_url()}.md", mode="w", encoding="utf-8") as md:
+        with open(f"jekyll/{self.sunday_url()}.md", mode="w", encoding="utf-8") as md:
             md.writelines(self.template(shops_open))
         self.build_sitemap()
 
