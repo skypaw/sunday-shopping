@@ -22,3 +22,5 @@ layout: default
         </ul>
     </div>
 </div>
+{{ site.data.filtered-shopping-sundays.dates[0] }}
+{{ "today" }}
