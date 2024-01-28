@@ -3,9 +3,9 @@ title: Czy dzisiaj jest niedziela handlowa
 layout: default
 ---
 
-<h1 class="display-4 lh-1  text-center">Czy dzisiaj jest niedziela handlowa?</h1>
+<h1 class="display-4 lh-1  text-center">Czy dzisiaj ({% capture today %}{{"now" | date: "%B %d, %Y"}}{% endcapture %}) jest niedziela handlowa?</h1>
 <p id="is-shopping-allowed" class="display-4 fw-bold lh-1 pt-4 text-center">
-{% if site.data.filtered-shopping-sundays.dates[0] == {{"now" | date: "%B %d, %Y"}} %}
+{% if site.data.filtered-shopping-sundays.dates[0] == today %}
     Tak! 😄
 {% else %}
     Nie 😔
