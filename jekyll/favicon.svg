@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="100%" height="100%" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
-    <g transform="matrix(1.49012,0,0,1.45279,-8.47431,-7.09056)">
+<svg width="100%" height="100%" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(2.23518,0,0,2.17919,-12.7115,-10.6358)">
         <rect x="5.687" y="4.881" width="21.475" height="22.027" style="fill:rgb(233,232,231);"/>
     </g>
-    <g transform="matrix(0.964194,0,0,0.872685,0.450128,0.555556)">
+    <g transform="matrix(1.44629,0,0,1.30903,0.675192,0.833333)">
         <rect x="-0.467" y="-0.637" width="33.188" height="6.875" style="fill:rgb(212,33,61);"/>
     </g>
-    <g transform="matrix(0.0602621,0,0,0.58179,5.03644,-0.62963)">
+    <g transform="matrix(0.0903932,0,0,0.654514,7.55466,0.416667)">
         <rect x="-0.467" y="-0.637" width="33.188" height="6.875" style="fill:rgb(189,189,189);"/>
     </g>
-    <g transform="matrix(0.0602621,0,0,0.58179,25.0281,-0.62963)">
+    <g transform="matrix(0.0903932,0,0,0.654514,37.5422,0.416667)">
         <rect x="-0.467" y="-0.637" width="33.188" height="6.875" style="fill:rgb(189,189,189);"/>
     </g>
-    <g transform="matrix(1.26615,0,0,1.26615,-0.297361,-2.31574)">
+    <g transform="matrix(1.89922,0,0,1.89922,-0.446041,-3.47361)">
         <g transform="matrix(12.5644,0,0,12.5644,22.4571,21)">
         </g>
         <text x="4px" y="21px" style="font-family:'Aeroko-Bold', 'Aeroko', sans-serif;font-weight:700;font-size:12.564px;">Nd</text>
