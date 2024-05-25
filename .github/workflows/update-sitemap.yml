@@ -15,4 +15,7 @@ jobs:
     - name: 'Set up Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v2'
     - name: 'Use gcloud CLI'
-      run: 'gcloud info'
+      run: |
+        curl -X PUT -H "Authorization: Bearer $(gcloud auth print-identity-token)" \
+          https://www.googleapis.com/webmasters/v3/sites/czyjesthandlowa.pl/sitemaps/czyjesthandlowa.pl/sitemap.xml
+
