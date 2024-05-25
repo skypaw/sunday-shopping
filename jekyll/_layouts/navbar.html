@@ -30,6 +30,16 @@
             </div>
         </div>
     </div>
+    <div class="row pt-5">
+    <p class="lead">Najbliższe niedziele handlowe:</p>
+    <div class="container">
+        <ul id="next-sunday" class="list-group">
+            {% for sunday in site.data.filtered-shopping-sundays.dates limit:3 %}
+                <li class="list-group-item">{{ sunday | date: "%d.%m.%Y"}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
 </main>
 <footer class="footer mt-auto py-3 text-center">
   <div class="container">
