@@ -11,6 +11,9 @@ class AnySunday:
         self.date = sunday
         self.jekyll_date = self.date.strftime("%d.%m.%Y")
 
+    def more_two_month(self):
+        return self.date > date.today() + timedelta(days=62)
+
     def sunday_url(self) -> str:
         return f"czy-{self.jekyll_date}-jest-niedziela-handlowa"
 
@@ -26,7 +29,8 @@ class AnySunday:
     def generate(self, shops_open):
         with open(f"jekyll/{self.sunday_url()}.md", mode="w", encoding="utf-8") as md:
             md.writelines(self.template(shops_open))
-        self.build_sitemap()
+        if not self.more_two_month():  # smaller sitemap for google indexing - duplicates issue
+            self.build_sitemap()
 
     def build_sitemap(self):
         with open("jekyll/sitemap.xml", "r") as sitemap:
