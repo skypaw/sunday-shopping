@@ -15,7 +15,7 @@ jobs:
     - name: 'Set up Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v2'
       env:
-        TOKEN: gcloud auth print-identity-token
+        TOKEN: $(gcloud auth print-identity-token)
     - name: 'Use gcloud CLI'
       run: |
         curl -X PUT -H "Authorization: Bearer ${{ env.TOKEN }}" \
