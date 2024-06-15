@@ -24,6 +24,6 @@ jobs:
       run: curl https://czyjesthandlowa.pl/sitemap.xml | grep -oP '(?<=<loc>).*?(?=</loc>)' > urls.txt
     - name: 'Send indexing requests'
       run: |
-        while read -r url; do curl -X PUT -H "Authorization: Bearer $TOKEN" "{\"url\": $url, \"type\": "URL_UPDATED\"}"; done < urls.txt
+        while read -r url; do curl -X PUT -H "Authorization: Bearer $TOKEN" $url "{\"url\": $url, \"type\": "URL_UPDATED\"}"; done < urls.txt
 
 
