@@ -14,6 +14,10 @@ jobs:
         credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
     - name: 'Set up Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v2'
+    - name: "asdf"
+      run: export ASDF="this"
+    - run: echo $this
+    - run: echo "$this"
     - name: 'Use gcloud CLI'
       run: |
         curl -X PUT -H "Authorization: Bearer $(gcloud auth print-identity-token)" \
