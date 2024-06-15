@@ -16,8 +16,8 @@ jobs:
       uses: 'google-github-actions/setup-gcloud@v2'
     - name: "asdf"
       run: export ASDF="this"
-    - run: echo $this
-    - run: echo "$this"
+    - run: echo $ASDF
+    - run: echo "$ASDF"
     - name: 'Use gcloud CLI'
       run: |
         curl -X PUT -H "Authorization: Bearer $(gcloud auth print-identity-token)" \
