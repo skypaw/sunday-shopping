@@ -14,8 +14,16 @@ jobs:
         credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
     - name: 'Set up Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v2'
+    - name: 'Save token'
+      run: export TOKEN=$(gcloud auth print-identity-token)
     - name: 'Use gcloud CLI'
       run: |
-        curl -X PUT -H "Authorization: Bearer $(gcloud auth print-identity-token)" \
+        curl -X PUT -H "Authorization: Bearer $TOKEN" \
           https://www.googleapis.com/webmasters/v3/sites/czyjesthandlowa.pl/sitemaps/czyjesthandlowa.pl/sitemap.xml
+    - name: 'Download new sitemap and save urls to a file'
+      run: curl https://czyjesthandlowa.pl/sitemap.xml | grep -oP '(?<=<loc>).*?(?=</loc>)' > urls.txt
+    - name: 'Send indexing requests'
+      run: |
+        while read -r url; do curl -X PUT -H "Authorization: Bearer $TOKEN" "{\"url\": $url, \"type\": "URL_UPDATED\"}"; done < urls.txt
+
 
