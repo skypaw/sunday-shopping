@@ -1,5 +1,5 @@
 ---
-title: Najbliższa niedziela handlowa
+title: Najbliższa niedziela handlowa.
 ---
 
 <div class="row pt-5 pb-5 text-center">

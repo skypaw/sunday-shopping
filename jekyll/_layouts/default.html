@@ -4,25 +4,28 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description"
-          content="Czy dziś jest niedziela handlowa? Sprawdź kiedy wypadają najbliższe niedziele handlowe w {{ "now" | date: "%Y" }} roku"/>
+          content="Sprawdź, czy dzisiaj jest niedziela handlowa! Zobacz najbliższe niedziele handlowe w {{ "now" | date: "%Y" }} roku i zaplanuj zakupy."/>
     <meta property="og:image" content="https://czyjesthandlowa.pl/og-image.jpg"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="icon" type="image/svg+xml" href="https://czyjesthandlowa.pl/favicon.svg">
-    <title>{{ page.title }}</title>
+    <link rel="icon" type="image/png" href="https://czyjesthandlowa.pl/favicon.png">
+    <title>{{ page.title }} Sprawdź najbliższe niedziele handlowe w {{ "now" | date: "%Y" }} roku</title>
+    <link rel="icon" type="image/svg+xml" href="https://czyjesthandlowa.pl/favicon.svg">
+    <link rel="canonical" href="https://czyjesthandlowa.pl/" />
     <script defer src="https://analytics.eu.umami.is/script.js"
             data-website-id="a4688a58-cb81-44c7-b67e-e8dc2287118f"></script>
 
 </head>
 <body class="d-flex flex-column h-100">
 <main class="px-3">
-    <div class="container my-5 bg-light text-dark">
+    <article class="container my-5 bg-light text-dark">
         <div class="row p-4 pt-lg-5 align-items-center rounded-3 border shadow-lg">
             <div class="p-3 p-lg-5 pt-lg-3">
                 {{ content }}
             </div>
         </div>
-    </div>
+    </article>
 </main>
 <footer class="footer mt-auto py-3 text-center">
     <div class="container">
