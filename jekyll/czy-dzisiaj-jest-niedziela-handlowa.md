@@ -1,5 +1,5 @@
 ---
-title: Czy dziś jest niedziela handlowa
+title: Czy dziś jest niedziela handlowa?
 ---
 
 <h2 class="display-4 lh-1  text-center">Czy dziś jest niedziela handlowa?</h2>

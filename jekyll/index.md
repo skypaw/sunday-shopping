@@ -1,5 +1,5 @@
 ---
-title: Czy dzisiaj jest niedziela handlowa
+title: Czy dzisiaj jest niedziela handlowa?
 layout: default
 ---
 
