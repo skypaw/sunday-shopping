@@ -32,6 +32,28 @@
                                                    rel="noopener noreferrer">me</a>.</span>
     </div>
 </footer>
-<script type="application/ld+json" src="https://czyjesthandlowa.pl/schema.js"></script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Czy dzisiaj jest niedziela handlowa?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nie, dzisiaj nie jest niedziela handlowa."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kiedy są najbliższe niedziele handlowe?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Najbliższe niedziele handlowe to: {% for sunday in site.data.filtered-shopping-sundays.dates limit:3 %}{{ sunday | date: "%d.%m.%Y"}}{% endfor %}"
+      }
+    }
+  ]
+}
+</script>
 </body>
 </html>
