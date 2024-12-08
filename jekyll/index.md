@@ -14,7 +14,7 @@ layout: default
 
 </p>
 <div class="row pt-5">
-    <p class="lead">Najbliższe niedziele handlowe:</p>
+    <h2 class="lead">Najbliższe niedziele handlowe:</h2>
     <div class="container">
         <ul id="next-sunday" class="list-group">
             {% for sunday in site.data.filtered-shopping-sundays.dates limit:3 %}
