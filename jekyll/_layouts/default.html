@@ -41,15 +41,23 @@
       "name": "Czy dzisiaj jest niedziela handlowa?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Nie, dzisiaj nie jest niedziela handlowa."
+        "text": "{% capture today %}{{"now" | date: "%B %d, %Y"}}{% endcapture %}{% if site.data.filtered-shopping-sundays.dates[0] == today %}Tak, dzisiaj jest niedziela handlowa! 😄{% else %}Nie, dzisiaj nie jest niedziela handlowa. 😔{% endif %}"
       }
     },
+    {
+      "@type": "Question",
+      "name": "Kiedy jest najbliższa niedziela handlowa?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Najbliższe niedziela handlowe przypada:{% for sunday in site.data.filtered-shopping-sundays.dates limit:1 %} {{ sunday | date: "%d.%m.%Y"}}{% endfor %}."
+      }
+    }
     {
       "@type": "Question",
       "name": "Kiedy są najbliższe niedziele handlowe?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Najbliższe niedziele handlowe to: {% for sunday in site.data.filtered-shopping-sundays.dates limit:3 %}{{ sunday | date: "%d.%m.%Y"}}{% endfor %}"
+        "text": "Najbliższe niedziele handlowe to:{% for sunday in site.data.filtered-shopping-sundays.dates limit:3 %} {{ sunday | date: "%d.%m.%Y"}}{% endfor %}."
       }
     }
   ]
